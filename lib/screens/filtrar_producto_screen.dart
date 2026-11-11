@@ -51,10 +51,13 @@ class _FiltrarProductoScreenState extends State<FiltrarProductoScreen> {
                 Expanded(
                   child: TextField(
                     controller: _busquedaController,
-                    decoration: InputDecoration(labelText: 'Filtrar'),
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (_) => _buscar(),
+                    decoration: const InputDecoration(labelText: 'Filtrar'),
                   ),
                 ),
                 IconButton(onPressed: _buscar, icon: const Icon(Icons.search)),
+                IconButton(onPressed: _limpiar, icon: const Icon(Icons.restore)),
               ],
             ),
             Expanded(
@@ -110,6 +113,19 @@ class _FiltrarProductoScreenState extends State<FiltrarProductoScreen> {
 
   void _buscar() {
     setState(() {
+      final desc = _busquedaController.text;
+      if (desc.isNotEmpty) {
+        _consulta = _productoService.filtrar(
+          descripcion: _busquedaController.text,
+        );
+      }
+    });
+  }
+
+  void _limpiar() {
+    setState(() {
+      _busquedaController.clear();
+
       _consulta = _productoService.filtrar(
         descripcion: _busquedaController.text,
       );

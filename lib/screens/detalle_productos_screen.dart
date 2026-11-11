@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluxis_store_app/models/producto.dart';
 
 class DetalleProductosScreen extends StatelessWidget {
-  final Producto _producto;
-  const DetalleProductosScreen({super.key, required this._producto});
+  final Producto producto;
+  const DetalleProductosScreen({super.key, required this.producto});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +15,10 @@ class DetalleProductosScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('SKU: ${_producto.sku}'),
-            Text('Descripción: ${_producto.descripcion}'),
-            Text('Precio: ${_producto.precio}'),
-            Text('Stock: ${_producto.stock}'),
+            Text('SKU: ${producto.sku}'),
+            Text('Descripción: ${producto.descripcion}'),
+            Text('Precio: ${producto.precio}'),
+            Text('Stock: ${producto.stock}'),
           ],
         ),
       ),

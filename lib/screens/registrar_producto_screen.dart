@@ -6,14 +6,24 @@ class RegistrarProductoScreen extends StatefulWidget {
   const RegistrarProductoScreen({super.key});
 
   @override
-  State<RegistrarProductoScreen> createState() => _RegistrarProductoScreenState();
+  State<RegistrarProductoScreen> createState() =>
+      _RegistrarProductoScreenState();
 }
 
 class _RegistrarProductoScreenState extends State<RegistrarProductoScreen> {
-  final TextEditingController _descripcionController = TextEditingController();
-  final TextEditingController _precioController = TextEditingController();
-  final TextEditingController _stockController = TextEditingController();
+  late final TextEditingController _descripcionController;
+  late final TextEditingController _precioController;
+  late final TextEditingController _stockController;
   final ProductoService _productoService = ProductoService();
+
+  @override
+  void initState() {
+    _descripcionController = TextEditingController();
+    _precioController = TextEditingController();
+    _stockController = TextEditingController();
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -35,14 +45,16 @@ class _RegistrarProductoScreenState extends State<RegistrarProductoScreen> {
           bottom: 100,
         ),
         child: Column(
+          spacing: 20,
           children: [
             TextField(
               decoration: const InputDecoration(labelText: "Descripción"),
               controller: _descripcionController,
             ),
             TextField(
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               decoration: const InputDecoration(labelText: "Precio"),
               controller: _precioController,
             ),
@@ -53,9 +65,16 @@ class _RegistrarProductoScreenState extends State<RegistrarProductoScreen> {
             ),
 
             const Spacer(),
-            ElevatedButton(
-              onPressed: _onRegistrarProducto,
-              child: const Text('Registrar'),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amber.shade100,
+                ),
+                onPressed: _onRegistrarProducto,
+                child: const Text('Registrar'),
+              ),
             ),
           ],
         ),
@@ -69,9 +88,7 @@ class _RegistrarProductoScreenState extends State<RegistrarProductoScreen> {
 
     if (precio == null || stock == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Ingresa un precio y un stock válidos'),
-        ),
+        const SnackBar(content: Text('Ingresa un precio y un stock válidos')),
       );
       return;
     }
@@ -92,7 +109,6 @@ class _RegistrarProductoScreenState extends State<RegistrarProductoScreen> {
       _stockController.clear();
     }
 
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -102,6 +118,5 @@ class _RegistrarProductoScreenState extends State<RegistrarProductoScreen> {
         ),
       ),
     );
-    
   }
 }

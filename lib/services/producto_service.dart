@@ -6,7 +6,7 @@ import 'package:fluxis_store_app/models/crear_producto_request.dart';
 import 'package:http/http.dart' as http;
 
 class ProductoService {
-  final String baseUrl = 'http://fluxisstore.apis.fluxis.co';
+  final String baseUrl = 'https://fluxisstore.apis.fluxis.co/';
 
   Future<bool> registrarProducto(CrearProductoRequest request) async {
     final json = jsonEncode(request.toJson());
@@ -23,21 +23,37 @@ class ProductoService {
   Future<FiltrarProductosRequest?> filtrar({String? descripcion}) async {
     final queryParams = <String, String>{};
 
-  if (descripcion != null && descripcion.trim().isNotEmpty) {
-    queryParams['descripcion'] = descripcion.trim();
-  }
-
-      final uri = Uri.parse('$baseUrl/productos')
-          .replace(queryParameters: queryParams);
-
-      final respuesta = await http.get(uri);
-
-      if (respuesta.statusCode == HttpStatus.ok) {
-        final json = jsonDecode(respuesta.body);
-        return FiltrarProductosRequest.fromJson(json);
-      }
-
-      return null;
+    if (descripcion != null && descripcion.trim().isNotEmpty) {
+      queryParams['descripcion'] = descripcion.trim();
     }
+
+    final uri = Uri.parse('$baseUrl/productos')
+        .replace(queryParameters: queryParams);
+
+    final respuesta = await http.get(uri);
+
+    if (respuesta.statusCode == HttpStatus.ok) {
+      final json = jsonDecode(respuesta.body);
+      return FiltrarProductosRequest.fromJson(json);
+    }
+
+    return null;
   }
+
+    Future<FiltrarProductosRequest?> listar() async {
+
+
+    final respuesta = await http.get(Uri.parse('$baseUrl/productos'));
+
+    if (respuesta.statusCode == HttpStatus.ok) {
+      final json = jsonDecode(respuesta.body);
+      return FiltrarProductosRequest.fromJson(json);
+    }
+
+    return null;
+  }
+}
+
+
+
 
